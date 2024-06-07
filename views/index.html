@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Cadastro de Pessoas</title>
+</head>
+<body>
+    <h1>Cadastro de Pessoas</h1>
+    <form action="/add" method="POST">
+        <input type="text" name="nome" placeholder="Nome" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="number" name="idade" placeholder="Idade" required>
+        <button type="submit">Adicionar</button>
+    </form>
+    <h2>Lista de Pessoas</h2>
+    <ul id="pessoa-list">
+        <!-- Lista de pessoas será inserida aqui via JavaScript -->
+    </ul>
+    <script>
+        async function fetchPessoas() {
+            const response = await fetch('/pessoas');
+            const pessoas = await response.json();
+            const list = document.getElementById('pessoa-list');
+            list.innerHTML = '';
+            pessoas.forEach(pessoa => {
+                const li = document.createElement('li');
+                li.textContent = `${pessoa.nome} - ${pessoa.email} - ${pessoa.idade} anos`;
+                list.appendChild(li);
+            });
+        }
+
+        window.onload = fetchPessoas;
+    </script>
+</body>
+</html>
